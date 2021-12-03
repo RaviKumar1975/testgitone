@@ -1,0 +1,133 @@
+<apex:page standardController="Quote" renderAs="pdf" showHeader="false" applyHtmlTag="false">
+    <html>
+        <head>
+            <style>
+                .tableClass {
+                border-collapse: collapse;
+                width: 100%;
+                
+                }
+                .theHead {
+                background-color: #767676;  
+                color:#fff;
+                }
+                .theHead, .col {
+                text-align: left;
+                padding: 8px;
+                text-decoration:none;
+                font-size: 14px;
+                }
+                .col_bor{
+                padding: 7px;
+                font-size: 14px;
+                border-right:1px solid;
+                }
+                .odd {
+                background-color: #FFFFFF;
+                }
+                .even {
+                background-color: #EEEEEE;
+                }
+                
+            </style>
+        </head>
+        <body>    
+            
+            <apex:form >
+                <table>
+                    <apex:pageBlock >
+                        
+                        <apex:image alt="img" title="img" 
+                                    url="{!URLFOR($Resource.imagess,'image-000.png')}"   width="450" height="55"/>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <apex:image alt="img" title="img"
+                                    url="{!URLFOR($Resource.imagess,'image-002.png')}"   width="220" height="55"/>
+                        <div style="margin-top:2%; width:100%;">
+                            <div style="float:left;margin-top:7%;width:50%;" >
+                                <apex:image alt="img" title="img"
+                                            url="{!URLFOR($Resource.imagess,'image-007.png')}" /><br/>
+                                
+                                <apex:outputLabel value="{! Quote.BillingName}"/><br/><br/>
+                                <apex:outputLabel value="{! Quote.BillingStreet}"/><br/>
+                                <apex:outputLabel value="{! Quote.BillingCity}"/>
+                                <apex:outputLabel value="{! Quote.BillingState}"/>
+                                <apex:outputLabel value="{! Quote.BillingPostalCode}"/><br/>
+                                <apex:outputLabel value="{! Quote.BillingCountry}"/>
+                            </div>
+                            <div style="float:left;margin-top:7%;width:50%;">
+                                <apex:image alt="img" title="img"
+                                            url="{!URLFOR($Resource.imagess,'image-005.png')}"  /><br/>
+                                <apex:outputLabel value="{! Quote.ShippingName}"/><br/><br/>
+                                <apex:outputLabel value="{! Quote.ShippingStreet}"/><br/> 
+                                <apex:outputLabel value="{! Quote.ShippingCity}"/>
+                                <apex:outputLabel value="{! Quote.ShippingState}"/>
+                                <apex:outputLabel value="{! Quote.ShippingPostalCode}"/><br/>
+                                <apex:outputLabel value="{! Quote.ShippingCountry}"/><br/><br/>
+                                <apex:outputLabel value="{! Quote.Email}"/>
+                                
+                            </div>
+                            <div style="float:left;margin-top:10%;width:50%;" >
+                                
+                                QuoteNumber:<apex:outputLabel value="{! Quote.QuoteNumber}"/><br/>
+                                <apex:outputtext value="{0,date,dd'/'MM'/'yyyy}">
+                                    Created Date:<apex:param value="{!Quote.CreatedDate}"/>
+                                </apex:outputtext><br/>
+                                <apex:outputtext value="{0,date,dd'/'MM'/'yyyy}">
+                                    Valid Through:<apex:param value="{! Quote.ExpirationDate}"/>
+                                </apex:outputtext><br/>
+                                Solution:<apex:outputLabel value="{! Quote.Description}"/><br/>
+                            </div>
+                            <div style="float:left;margin-top:10%;width:50%;">
+                                Prepared By:   <apex:outputLabel value="{! $User.FirstName } {! $User.LastName }"/><br/><br/>
+                                Email:         <apex:outputLabel value="{! $User.Email}"/><br/> 
+                            </div>
+                            <div style="float:left;margin-top:2%;width:100%;">
+                                <apex:pageBlockTable width="100%"  value="{! Quote.quoteLineItems }" var="ct"  align="center" id="theTable" headerClass="theHead" rowClasses="odd,even" styleClass="tableClass">
+                                    <apex:column styleClass="col_bor" value="{!ct.Product2Id}">
+                                        <apex:facet name="header"> Product </apex:facet>
+                                    </apex:column>
+                                    <apex:column styleClass="col_bor" value="{!ct.Description}">
+                                        <apex:facet name="header"> Description </apex:facet>
+                                    </apex:column> 
+                                    <apex:column styleClass="col_bor" value="{!ct.Quantity}">
+                                        <apex:facet name="header">Quantity</apex:facet>   
+                                    </apex:column> 
+                                    <apex:column styleClass="col_bor"  value="{!ct.UnitPrice}">
+                                        <apex:facet name="header">Sales Price</apex:facet> 
+                                    </apex:column> 
+                                    <apex:column styleClass="col" value="{!ct.TotalPrice}">
+                                        <apex:facet name="header">Total Price</apex:facet>
+                                    </apex:column>                                        
+                                </apex:pageBlockTable>  
+                                
+                            </div>
+                            <div style="Width:80%; text-align:right;float:left;margin-top:2%;">
+                                Subtotal:<apex:outputLabel value="{! Quote.Subtotal}"/><br/> 
+                                <apex:outputText value="{0, number, '('00.00'%)'}">
+                                Discount(%):<apex:outputLabel value="{!Quote.Discount_Amount__c}"/><apex:param value="{!Quote.Discount}" />
+                                </apex:outputText><br/>
+                                Discounted Subtotal:<apex:outputLabel value="{! Quote.DiscountSubtotal__c}"/><br/> 
+                                Tax(%):<apex:outputLabel value="{! Quote.Tax}"/><br/>
+                                Shipping and Handling:<apex:outputLabel value="{! Quote.ShippingHandling}"/><br/>
+                                Total:<apex:outputLabel value="{! Quote.TotalPrice}"/>
+                                
+                            </div>
+                            <div style="float:left;margin-top:5%; width:100%;">
+                                Accepted By______________________________ &nbsp; &nbsp;
+                                Date Accepted_____________________
+                            </div>
+                            <div style="float:right;margin-top:5%;"> 
+                                <apex:image alt="img" title="img" 
+                                            url="{!URLFOR($Resource.imagess,'image-003.png')}"/>               
+                            </div>
+                        </div>
+                    </apex:pageBlock> 
+                </table>
+            </apex:form>
+        </body>
+        
+    </html>
+</apex:page>

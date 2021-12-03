@@ -1,0 +1,10 @@
+<apex:page standardController="Quote" recordSetVar="Quotes">
+        <apex:repeat var="a" value="{!Quotes}">
+            <li>
+                <apex:outputLink value="https://growthnatives6-dev-ed--c.visualforce.com/apex/pdf?core.apexpages.request.devconsole=1&id={!a.id}" >
+                    {!a.name}
+                </apex:outputLink>
+            </li>
+        </apex:repeat>
+
+</apex:page>
